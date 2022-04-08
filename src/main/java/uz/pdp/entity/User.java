@@ -6,11 +6,12 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
-import uz.pdp.entity.enums.Provider;
+
 
 import javax.persistence.*;
 
 import java.util.Collection;
+import java.util.Set;
 
 
 @Entity(name = "users")
@@ -19,14 +20,14 @@ import java.util.Collection;
 @Data
 public class User implements UserDetails {
 
-    public User(String fullName, String userName, String password, boolean enabled) {
+    public User(String fullName, Set<Role> roles, String userName, String password, boolean enabled) {
         this.fullName = fullName;
+        this.roles = roles;
         this.userName = userName;
         this.password = password;
         this.enabled = enabled;
     }
-    @Enumerated(EnumType.STRING)
-    private Provider provider;
+
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -38,7 +39,8 @@ public class User implements UserDetails {
     @Column(unique = true, nullable = false)
     private String userName; //phone login
     private String password;
-
+    @ManyToMany
+    private Set<Role> roles;
 
     private boolean enabled = true; //tizimdan foydalanish huquqi
     private boolean accountNonExpired = true;
