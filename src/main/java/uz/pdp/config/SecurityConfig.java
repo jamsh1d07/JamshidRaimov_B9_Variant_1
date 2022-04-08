@@ -13,6 +13,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
+import uz.pdp.component.Generator;
 import uz.pdp.oauth2.CustomOAuth2User;
 import uz.pdp.oauth2.CustomOAuth2UserService;
 import uz.pdp.oauth2.UserService1;
@@ -33,13 +34,16 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Autowired
     UserService1 userService;
 
+    @Autowired
+    Generator generator;
+
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
         auth
                 .inMemoryAuthentication()
-                .withUser("user").password(passwordEncoder().encode("user")).roles("ADMIN")
+                .withUser("user").password(generator.passwordEncoder().encode("user")).roles("ADMIN")
                 .and()
-                .withUser("admin").password(passwordEncoder().encode("admin")).roles("SUPER_ADMIN");
+                .withUser("admin").password(generator.passwordEncoder().encode("admin")).roles("SUPER_ADMIN");
     }
 
     @Override
@@ -75,9 +79,5 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     }
 
-    @Bean
-    PasswordEncoder passwordEncoder(){
-        return new BCryptPasswordEncoder();
-    }
 
 }

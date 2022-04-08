@@ -6,6 +6,8 @@ import uz.pdp.entity.User;
 import uz.pdp.entity.enums.Provider;
 import uz.pdp.repository.UserRepository;
 
+import java.util.Optional;
+
 @Service
 public class UserService1 {
 
@@ -13,7 +15,8 @@ public class UserService1 {
     private UserRepository repo;
 
     public void processOAuthPostLogin(String username) {
-        User existUser = repo.getUserByUsername(username);
+        Optional<User> byUserName = repo.findByUserName(username);
+        User existUser = byUserName.get();
 
         if (existUser == null) {
             User newUser = new User();
