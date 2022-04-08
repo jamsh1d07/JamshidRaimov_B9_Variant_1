@@ -45,7 +45,6 @@ public class DataLoader implements CommandLineRunner {
 
 
             Set<Role> roles = new HashSet<>();
-            roles.add(admin);
             roles.add(superAdmin);
 
             Set<Role> roles1 = new HashSet<>();
@@ -57,6 +56,7 @@ public class DataLoader implements CommandLineRunner {
             User user1 = new User("Jasur",roles1, "user",
                     passwordEncoder.encode("user"), true);
             userRepository.save(user1);
+
         }
     }
 }

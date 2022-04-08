@@ -34,7 +34,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     AuthService authService;
     @Autowired
     JwtFilter jwtFilter;
-
     @Autowired
     Generator generator;
 
@@ -48,23 +47,19 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     protected AuthenticationManager authenticationManager() throws Exception {
         return super.authenticationManager();
     }
+
     @Override
     protected void configure(HttpSecurity http) throws Exception {
 
         http
                 .cors().and().csrf().disable()
                 //har bir zaprosdan oldin session yaratish yoki eslab qolmaslik sharti bilan
-//                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-//                .and()
+                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+                .and()
                 .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class)
                 .authorizeRequests()
-//                .antMatchers(HttpMethod.GET,"/api/book/**").hasAnyRole ("ADMIN","SUPER_ADMIN")
-//                .antMatchers(HttpMethod.POST,"/api/book/**").hasAnyRole ("ADMIN","SUPER_ADMIN")
-                .antMatchers("/api/auth/**").permitAll()
-                .antMatchers("/api/book/**").hasRole ("SUPER_ADMIN")
+                .antMatchers("/api/auth/**","/api/book/**").permitAll()
                 .anyRequest()
                 .authenticated();
     }
-
-
 }

@@ -25,7 +25,7 @@ public class JwtFilter extends OncePerRequestFilter {
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
         String token = request.getHeader("Authorization");
-//        if (token.startsWith("Bearer"))
+//        if (token.startsWith("Bearer")){
 //        token = token.substring(7);
         if (jwtProvider.validateToken(token)) {
             if (jwtProvider.expireToken(token)) {
@@ -34,6 +34,7 @@ public class JwtFilter extends OncePerRequestFilter {
 
                 UserDetails userDetails = authService.loadUserByUsername(userName);
 
+                System.out.println(userDetails.getAuthorities());
                 UsernamePasswordAuthenticationToken user = new UsernamePasswordAuthenticationToken(userDetails,
                         userDetails.getPassword(), userDetails.getAuthorities());
 
@@ -42,7 +43,10 @@ public class JwtFilter extends OncePerRequestFilter {
 
             }
         }
-        //http zanjiri
-        doFilter(request, response, filterChain);
-    }
+//    }
+
+
+    //http zanjiri
+    doFilter(request, response, filterChain);
+}
 }

@@ -5,13 +5,13 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 
 import javax.persistence.*;
 
-import java.util.Collection;
-import java.util.Set;
+import java.util.*;
 
 
 @Entity(name = "users")
@@ -50,8 +50,13 @@ public class User implements UserDetails {
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
+        Set<GrantedAuthority> grantedAuthorities = new LinkedHashSet<>();
 
-        return null;
+        for (Role role : this.roles) {
+            SimpleGrantedAuthority simpleGrantedAuthority = new SimpleGrantedAuthority(role.getName().name());
+            grantedAuthorities.add(simpleGrantedAuthority);
+        }
+        return grantedAuthorities;
     }
 
     @Override

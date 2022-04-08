@@ -25,6 +25,7 @@ public class BookController {
 
     //ADMIN,SUPER_ADMIN
 //    @PreAuthorize(value = "hasAnyRole('ADMIN','SUPER_ADMIN')") //role based authentication
+    @PreAuthorize(value = "hasAnyAuthority('ADMIN','SUPER_ADMIN')") //role based authentication
     @GetMapping
     public HttpEntity<?> getAll() {
         List<Book> list = bookRepository.findAll();
@@ -32,7 +33,7 @@ public class BookController {
     }
 
     //ADMIN,SUPER_ADMIN
-//    @PreAuthorize(value = "hasAnyRole('ADMIN','SUPER_ADMIN')") //role based authentication
+    @PreAuthorize(value = "hasAnyAuthority('ADMIN','SUPER_ADMIN')") //role based authentication
     @PostMapping
     public HttpEntity<?> save(@Valid @RequestBody BookDTO dto) {
         Book book = new Book();
@@ -45,7 +46,7 @@ public class BookController {
     }
 
     //ADMIN,SUPER_ADMIN
-//    @PreAuthorize(value = "hasAnyRole('ADMIN','SUPER_ADMIN')") //role based authentication
+    @PreAuthorize(value = "hasAnyAuthority('ADMIN','SUPER_ADMIN')") //role based authentication
     @PutMapping("/{id}")
     public HttpEntity<?> edit(@PathVariable Integer id, @Valid @RequestBody BookDTO dto) {
         Optional<Book> optionalBook = bookRepository.findById(id);
@@ -62,7 +63,7 @@ public class BookController {
     }
 
     //SUPER_ADMIN
-//    @PreAuthorize(value = "hasRole('SUPER_ADMIN')")//role based authentication
+    @PreAuthorize(value = "hasAuthority('SUPER_ADMIN')")//role based authentication
     @DeleteMapping("/{id}")
     public HttpEntity<?> delete(@PathVariable Integer id) {
         Optional<Book> optionalBook = bookRepository.findById(id);
@@ -76,7 +77,7 @@ public class BookController {
     }
 
     //ADMIN,SUPER_ADMIN
-//        @PreAuthorize(value = "hasAnyRole('ADMIN','SUPER_ADMIN')") //role based authentication
+    @PreAuthorize(value = "hasAnyAuthority('ADMIN','SUPER_ADMIN')") //role based authentication
     @GetMapping("/{id}")
     public HttpEntity<?> getOne(@PathVariable Integer id) {
         Optional<Book> optionalBook = bookRepository.findById(id);
